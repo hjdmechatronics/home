@@ -1,67 +1,588 @@
-<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JD MECHATRONICS | CNC, Fiber Laser & 3D Printing</title>
-<meta name="description" content="JD MECHATRONICS by Houssein Jamal El Din. CNC, fiber laser, CO2 laser, 3D printing, installation, programming, maintenance and technical support. Baalbek, Lebanon.">
-<meta name="keywords" content="JD Mechatronics, Houssein Jamal El Din, CNC Lebanon, Fiber Laser Lebanon, Baalbek CNC, 3D printing, laser maintenance">
-<meta name="author" content="Houssein Jamal El Din">
-<meta property="og:title" content="JD MECHATRONICS | Industrial Technology">
-<meta property="og:description" content="CNC • Fiber Laser • CO2 Laser • 3D Printing. Baalbek, Lebanon.">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JD MECHATRONICS | CNC Manufacturing & Repair — Baalbek, Lebanon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#081321;--panel:#102238;--line:#29445c;--txt:#eef5fc;--muted:#b5c5d4;--cyan:#45d0dc;--blue:#5795ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Arial,sans-serif}a{color:inherit;text-decoration:none}.wrap{width:min(1100px,92%);margin:auto}
-header{position:sticky;top:0;background:#081321ed;border-bottom:1px solid var(--line);z-index:5}nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-weight:900;letter-spacing:1.5px;font-size:20px}.brand small{display:block;color:var(--cyan);font-size:10px;letter-spacing:3px}.links{display:flex;gap:20px;color:var(--muted);font-size:14px}.lang button{background:none;border:1px solid var(--line);color:var(--txt);padding:7px 10px;border-radius:7px}
-.hero{padding:90px 0 75px;background:radial-gradient(ellipse at 85% 10%,#17455b,transparent 45%),linear-gradient(130deg,#0a1728,#0b2033)}.eyebrow{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
-h1{font-size:clamp(38px,6vw,66px);line-height:1.08;margin:15px 0}h2{font-size:clamp(27px,4vw,40px);line-height:1.2;margin:8px 0 12px}h3{margin:10px 0 5px}.hero p,.lead{color:var(--muted);font-size:18px;max-width:730px}
-.btn{display:inline-block;padding:12px 19px;border-radius:9px;background:linear-gradient(110deg,var(--cyan),var(--blue));color:#061321;font-weight:bold;margin:8px 8px 0 0}.outline{background:transparent;border:1px solid #5b7890;color:var(--txt)}
-section{padding:68px 0}.band{background:#0d1d2e;border-block:1px solid var(--line)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}.card p,li{color:var(--muted)}.card p{font-size:14px;margin:0}.ico{font-size:26px}.two{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}li{margin:8px 0}.contact{background:linear-gradient(130deg,#112a40,#0b1b2b);border:1px solid var(--line);border-radius:17px;padding:30px}.contact strong{color:var(--cyan)}footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:13px}
-[dir=rtl]{text-align:right}[dir=rtl] ul{padding-right:22px;padding-left:0}
-@media(max-width:720px){.links{display:none}.grid{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.hero{padding:62px 0}}@media(max-width:450px){.grid{grid-template-columns:1fr}.brand{font-size:17px}}
+:root{--cyan:#00d4ff;--blue:#0066ff;--dark:#07070f;--dark2:#0e0e1a;--dark3:#161628;--text:#e2e2ef;--muted:#6b6b88;--radius:18px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;line-height:1.6}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--dark2)}::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:3px}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2rem;background:rgba(7,7,15,.7);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,212,255,.08);transition:padding .3s,background .3s}
+#nav.scrolled{padding:.7rem 2rem;background:rgba(7,7,15,.95)}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-box{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:15px;color:#000;flex-shrink:0}
+.logo-words{display:flex;flex-direction:column;line-height:1.1}
+.logo-words b{font-family:'Orbitron',sans-serif;font-weight:700;font-size:.85rem;background:linear-gradient(90deg,var(--cyan),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.5px}
+.logo-words small{font-size:.6rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.nav-menu{display:flex;align-items:center;gap:1.8rem;list-style:none}
+.nav-menu a{font-size:.87rem;font-weight:500;color:var(--muted);transition:color .25s}
+.nav-menu a:hover{color:var(--cyan)}
+.nav-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000!important;padding:.48rem 1.2rem;border-radius:50px;font-weight:700!important;transition:transform .2s,box-shadow .2s!important}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,212,255,.4)!important}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.burger span{display:block;width:24px;height:2px;background:var(--cyan);border-radius:2px;transition:.3s}
+.burger.open span:first-child{transform:rotate(45deg) translate(5px,5px)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:last-child{transform:rotate(-45deg) translate(5px,-5px)}
+
+/* HERO */
+#hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 60% 70% at 20% 55%,rgba(0,102,255,.14) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 80% 45%,rgba(0,212,255,.09) 0%,transparent 70%),var(--dark)}
+.hero-content{position:relative;z-index:1;text-align:center;padding:6rem 1.5rem 4rem;max-width:860px}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);padding:.38rem 1rem;border-radius:50px;font-size:.78rem;font-weight:600;color:var(--cyan);letter-spacing:.5px;margin-bottom:1.6rem;animation:fadeDown .7s ease both}
+.hero-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.6)}}
+.hero-h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.2rem,7vw,5.2rem);font-weight:900;line-height:1.05;margin-bottom:.5rem;animation:fadeUp .7s ease .15s both}
+.hero-h1 .grad{background:linear-gradient(90deg,var(--cyan) 0%,#fff 50%,var(--blue) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.hero-sub{font-size:clamp(.95rem,2.2vw,1.25rem);color:var(--muted);font-weight:300;margin-bottom:2.4rem;line-height:1.7;animation:fadeUp .7s ease .3s both}
+.hero-sub strong{color:var(--cyan);font-weight:600}
+.hero-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s ease .45s both}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:.85rem 1.9rem;border-radius:50px;font-weight:700;font-size:.95rem;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,212,255,.35)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.18)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
+.hero-scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;animation:fadeUp .7s ease 1s both}
+.scroll-bar{width:1px;height:48px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollPulse 2s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-scroll-hint span{font-size:.65rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+
+/* STATS */
+#stats{background:var(--dark2);border-top:1px solid rgba(0,212,255,.08);border-bottom:1px solid rgba(0,212,255,.08);padding:2.8rem 2rem}
+.stats-wrap{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1.5rem;text-align:center}
+.stat h3{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat p{color:var(--muted);font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;margin-top:.3rem}
+
+/* SECTIONS */
+.section{padding:6rem 2rem}
+.label{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:.9rem}
+.h2{font-size:clamp(1.7rem,3.5vw,2.8rem);font-weight:800;line-height:1.2;margin-bottom:.9rem}
+.lead{color:var(--muted);max-width:580px;line-height:1.9;font-size:.97rem}
+
+/* ABOUT */
+#about{background:var(--dark)}
+.about-grid{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-visual{position:relative;border-radius:var(--radius);overflow:hidden;height:440px;min-height:300px}
+.about-video-wrap{width:100%;height:100%;background:linear-gradient(135deg,#0d0d1f,#171730);border:1px solid rgba(0,212,255,.15);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.about-video-wrap video{width:100%;height:100%;object-fit:cover;border-radius:var(--radius);display:none}
+.video-placeholder{text-align:center;padding:2rem;position:relative;z-index:1}
+.video-placeholder svg{opacity:.35}
+.video-placeholder p{margin-top:1rem;color:rgba(0,212,255,.5);font-size:.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase}
+.glow-ring{position:absolute;border-radius:50%;border:1px solid rgba(0,212,255,.12);animation:ringPulse 4s ease-in-out infinite}
+.glow-ring:nth-child(1){width:200px;height:200px;top:50%;left:50%;transform:translate(-50%,-50%)}
+.glow-ring:nth-child(2){width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:1s}
+.glow-ring:nth-child(3){width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:2s}
+@keyframes ringPulse{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:.15;transform:translate(-50%,-50%) scale(1.08)}}
+.corner{position:absolute;width:24px;height:24px;border-color:var(--cyan)}
+.corner-tl{top:12px;left:12px;border-top:2px solid;border-left:2px solid}
+.corner-tr{top:12px;right:12px;border-top:2px solid;border-right:2px solid}
+.corner-bl{bottom:12px;left:12px;border-bottom:2px solid;border-left:2px solid}
+.corner-br{bottom:12px;right:12px;border-bottom:2px solid;border-right:2px solid}
+.about-features{margin-top:2rem;display:flex;flex-direction:column;gap:1.4rem}
+.feat{display:flex;align-items:flex-start;gap:1rem}
+.feat-icon{width:44px;height:44px;min-width:44px;border-radius:12px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.18);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.feat h4{font-size:.95rem;font-weight:700;margin-bottom:.2rem}
+.feat p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* SERVICES */
+#services{background:var(--dark2)}
+.services-wrap{max-width:1200px;margin:0 auto}
+.services-head{text-align:center;margin-bottom:3.5rem}
+.services-head .lead{margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.3rem}
+.card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:2rem 1.6rem;transition:transform .3s,border-color .3s,box-shadow .3s,background .3s;position:relative;overflow:hidden;cursor:default}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);transform:translateX(-110%);transition:transform .5s}
+.card:hover::after{transform:translateX(0)}
+.card:hover{transform:translateY(-8px);border-color:rgba(0,212,255,.3);box-shadow:0 24px 56px rgba(0,0,0,.55),0 0 32px rgba(0,212,255,.07);background:rgba(0,212,255,.035)}
+.card-icon{width:58px;height:58px;border-radius:14px;background:linear-gradient(135deg,rgba(0,212,255,.12),rgba(0,102,255,.08));display:flex;align-items:center;justify-content:center;font-size:1.9rem;margin-bottom:1.4rem;transition:transform .3s}
+.card:hover .card-icon{transform:scale(1.1) rotate(5deg)}
+.card h3{font-size:1rem;font-weight:700;margin-bottom:.7rem;color:#fff}
+.card p{font-size:.82rem;color:var(--muted);line-height:1.75}
+.card-last{border-color:rgba(0,212,255,.2);background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(0,102,255,.04))}
+
+/* GALLERY */
+#gallery{background:var(--dark)}
+.gallery-wrap{max-width:1200px;margin:0 auto}
+.gallery-head{text-align:center;margin-bottom:3rem}
+.gallery-head .lead{margin:0 auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.g-item{border-radius:14px;overflow:hidden;position:relative;background:var(--dark3);border:1px solid rgba(255,255,255,.05);transition:transform .3s;min-height:180px}
+.g-item:hover{transform:scale(1.02)}
+.g-featured{grid-column:span 2;min-height:280px}
+.g-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s;z-index:1}
+.g-item:hover img{transform:scale(1.08)}
+.g-ph{width:100%;height:100%;min-height:180px;position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:.75rem;letter-spacing:1px;text-transform:uppercase;background:linear-gradient(135deg,var(--dark2),var(--dark3))}
+.g-ph svg{opacity:.25}
+.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 55%);opacity:0;transition:opacity .3s;z-index:2}
+.g-item:hover .g-overlay{opacity:1}
+
+/* CONTACT */
+#contact{background:var(--dark2)}
+.contact-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact-cards{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
+.cc{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);transition:transform .25s,border-color .25s,background .25s;color:var(--text)}
+a.cc:hover{transform:translateX(8px);border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04)}
+.cc-icon{width:46px;height:46px;min-width:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.cc-phone{background:rgba(0,212,255,.12)}.cc-wa{background:rgba(37,211,102,.12)}.cc-loc{background:rgba(255,107,53,.12)}
+.cc-text small{font-size:.68rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:.15rem}
+.cc-text strong{font-size:.97rem;font-weight:600}
+.social-box{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:2.3rem}
+.social-box h3{font-size:1.25rem;font-weight:700;margin-bottom:.5rem}
+.social-box > p{color:var(--muted);font-size:.88rem;margin-bottom:2rem;line-height:1.6}
+.slinks{display:flex;flex-direction:column;gap:.9rem}
+.slink{display:flex;align-items:center;gap:.9rem;padding:.95rem 1.2rem;border-radius:14px;font-weight:600;font-size:.93rem;transition:transform .25s,filter .25s;border:1px solid transparent}
+.slink:hover{transform:translateX(8px);filter:brightness(1.2)}
+.slink svg{width:22px;height:22px;min-width:22px}
+.slink-arrow{margin-left:auto;font-size:.72rem;opacity:.5}
+.slink-ig{background:linear-gradient(135deg,rgba(228,64,95,.12),rgba(188,42,141,.1),rgba(255,142,0,.08));color:#f06292;border-color:rgba(228,64,95,.2)}
+.slink-fb{background:rgba(66,103,178,.12);color:#7b9ed9;border-color:rgba(66,103,178,.2)}
+.slink-wa{background:rgba(37,211,102,.12);color:#4dc96d;border-color:rgba(37,211,102,.2)}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding:2.5rem 2rem;text-align:center;color:var(--muted);font-size:.82rem}
+footer .flogo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.1rem;background:linear-gradient(90deg,var(--cyan),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem;display:inline-block}
+
+/* WHATSAPP FLOAT */
+#wa-float{position:fixed;bottom:1.8rem;right:1.8rem;z-index:900;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,.55);transition:transform .3s,box-shadow .3s;animation:waFloat 3s ease infinite}
+#wa-float:hover{transform:scale(1.12) translateY(-3px);box-shadow:0 12px 40px rgba(37,211,102,.65)}
+#wa-float svg{width:30px;height:30px;fill:#fff}
+@keyframes waFloat{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.55)}50%{box-shadow:0 6px 24px rgba(37,211,102,.55),0 0 0 14px rgba(37,211,102,.08)}}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(38px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){.about-grid,.contact-wrap{grid-template-columns:1fr;gap:2.5rem}.about-visual{height:300px}.gallery-grid{grid-template-columns:1fr 1fr}.g-featured{grid-column:span 2;min-height:220px}}
+@media(max-width:680px){#nav{padding:.8rem 1.2rem}.nav-menu{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,7,15,.98);backdrop-filter:blur(24px);flex-direction:column;justify-content:center;gap:2.5rem;transform:translateX(100%);opacity:0;transition:transform .35s,opacity .35s;pointer-events:none;list-style:none;z-index:999}.nav-menu.open{transform:translateX(0);opacity:1;pointer-events:all}.nav-menu a{font-size:1.2rem}.burger{display:flex;z-index:1001;position:relative}.section{padding:4rem 1.3rem}.gallery-grid{grid-template-columns:1fr}.g-featured{grid-column:span 1}}
+@media(max-width:420px){.hero-btns{flex-direction:column;align-items:center}}
+
+/* ===== LIGHTBOX ===== */
+#lightbox{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.93);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+#lightbox.open{opacity:1;pointer-events:all}
+#lightbox img{max-width:92vw;max-height:85vh;object-fit:contain;border-radius:10px;box-shadow:0 0 80px rgba(0,0,0,.9);display:block}
+.lb-close{position:absolute;top:1.2rem;right:1.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;cursor:pointer;transition:background .2s;z-index:1;line-height:1}
+.lb-close:hover{background:rgba(255,255,255,.25)}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:50%;width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;transition:background .2s;z-index:1;user-select:none}
+.lb-nav:hover{background:rgba(255,255,255,.2)}
+.lb-prev{left:1.2rem}.lb-next{right:1.2rem}
+.lb-counter{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.45);font-size:.82rem;letter-spacing:1px}
+.g-item{cursor:pointer}
+
+/* ===== VIDEO CONTROLS ===== */
+.video-ctrl-bar{position:absolute;bottom:0;left:0;right:0;z-index:10;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);padding:.8rem 1rem .9rem;display:flex;align-items:center;gap:.7rem;opacity:0;transition:opacity .3s;border-radius:0 0 var(--radius) var(--radius)}
+.about-video-wrap:hover .video-ctrl-bar{opacity:1}
+.vc-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:background .2s;flex-shrink:0;line-height:1}
+.vc-btn:hover{background:rgba(0,212,255,.4)}
+.vc-label{color:rgba(255,255,255,.6);font-size:.78rem;flex:1;letter-spacing:.5px}
 </style>
-<script type="application/ld+json">{
-"@context":"https://schema.org","@type":"ProfessionalService","name":"JD MECHATRONICS",
-"founder":{"@type":"Person","name":"Houssein Jamal El Din"},"telephone":"+9613694231",
-"description":"CNC, fiber laser, CO2 laser and 3D printing technical services, machine installation, programming, troubleshooting, maintenance, training and machinery sourcing.",
-"address":{"@type":"PostalAddress","addressLocality":"Baalbek","addressCountry":"LB"},
-"areaServed":["Lebanon","Syria","Arab countries"],
-"knowsAbout":["CNC machining","Fiber laser cutting","CO2 laser systems","3D printing","Raytools controllers","Ruida controllers","Servo drives"]
-}</script></head>
-<body><header><div class="wrap"><nav><a class="brand" href="#">JD MECHATRONICS<small>INDUSTRIAL TECHNOLOGY</small></a>
-<div class="links" id="navlinks"><a href="#services">Services</a><a href="#expertise">Expertise</a><a href="#about">About</a><a href="#contact">Contact</a></div>
-<div class="lang"><button onclick="setLang('en')">EN</button> <button onclick="setLang('ar')">عربي</button></div></nav></div></header>
-<main id="main">
-<div class="hero"><div class="wrap"><div class="eyebrow">Baalbek, Lebanon · Serving the Arab region</div><h1>Industrial machines.<br><span style="color:var(--cyan)">Practical solutions.</span></h1>
-<p>Technical services for CNC, fiber laser, CO₂ laser and 3D printing systems — from setup and commissioning to troubleshooting, maintenance and operator training.</p>
-<a class="btn" href="https://wa.me/9613694231" target="_blank">Contact on WhatsApp</a><a class="btn outline" href="#services">Explore services</a></div></div>
-<section id="services"><div class="wrap"><div class="eyebrow">What we do</div><h2>Technical services built around your machine</h2><p class="lead">Support for workshops, manufacturers and machine owners across Lebanon, Syria and the Arab region.</p>
-<div class="grid">
-<div class="card"><div class="ico">⚡</div><h3>Fiber Laser</h3><p>Machine setup, cutting-process troubleshooting, controller configuration and performance optimization.</p></div>
-<div class="card"><div class="ico">⚙️</div><h3>CNC Router</h3><p>Programming, setup, motion systems, servo drives, commissioning and fault diagnosis.</p></div>
-<div class="card"><div class="ico">🔥</div><h3>CO₂ Laser</h3><p>Controller configuration, machine setup, laser-system troubleshooting and maintenance.</p></div>
-<div class="card"><div class="ico">▦</div><h3>3D Printing</h3><p>Printer setup, calibration, print troubleshooting, workflow advice and operator guidance.</p></div>
-<div class="card"><div class="ico">🛠️</div><h3>Installation & Maintenance</h3><p>Machine installation, commissioning, preventive maintenance and repair support.</p></div>
-<div class="card"><div class="ico">📦</div><h3>Machinery & Spare Parts</h3><p>Technical guidance for machine sourcing, purchasing, importing and spare-parts supply.</p></div>
-</div></div></section>
-<section class="band" id="expertise"><div class="wrap two"><div><div class="eyebrow">Technical expertise</div><h2>Controls, drives and machine integration</h2><p class="lead">Practical support across the machine-control chain, from controller settings to motors, wiring and process setup.</p></div>
-<ul><li>Raytools and XC3000S laser controllers</li><li>Ruida laser controllers and CO₂ systems</li><li>Servo drives, motors and motion control</li><li>CNC router and stone-engraving workflows</li><li>3D printer setup and troubleshooting</li><li>Remote technical consulting and training</li></ul></div></section>
-<section id="about"><div class="wrap two"><div><div class="eyebrow">About</div><h2>Houssein Jamal El Din</h2><p class="lead">Independent mechatronics and industrial-machinery technical specialist, operating under the JD MECHATRONICS name from Baalbek, Lebanon.</p></div>
-<div class="card"><h3>Service coverage</h3><p>Based in Baalbek, Lebanon. Serving customers in Lebanon, Syria and other Arab countries, with remote technical consultation available.</p></div></div></section>
-<section class="band" id="contact"><div class="wrap"><div class="contact"><div class="eyebrow">Let's solve your machine issue</div><h2>Need technical support or a machine solution?</h2><p class="lead">Contact Houssein for CNC, laser and 3D printing inquiries, machine setup, troubleshooting, training or sourcing guidance.</p>
-<p><strong>Phone / WhatsApp:</strong> +961 3 694231<br><strong>Location:</strong> Baalbek, Lebanon<br><strong>Service area:</strong> Lebanon · Syria · Arab region</p><a class="btn" href="https://wa.me/9613694231" target="_blank">Message JD MECHATRONICS</a></div></div></section>
-</main><footer><div class="wrap">© <span id="year"></span> JD MECHATRONICS · Houssein Jamal El Din · Baalbek, Lebanon</div></footer>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#hero" class="logo">
+    <div class="logo-box">JD</div>
+    <div class="logo-words">
+      <b id="logo-name">JD MECHATRONICS</b>
+      <small id="logo-loc">Baalbek · Lebanon</small>
+    </div>
+  </a>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#about"    onclick="closeMenu()">About</a></li>
+    <li><a href="#services" onclick="closeMenu()">Services</a></li>
+    <li><a href="#gallery"  onclick="closeMenu()">Gallery</a></li>
+    <li><a href="#contact"  class="nav-cta" onclick="closeMenu()">Contact</a></li>
+  </ul>
+  <div class="burger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="dot"></span><span id="hero-tagline">CNC Manufacturing &amp; Repair — Baalbek, Lebanon</span></div>
+    <h1 class="hero-h1"><span class="grad" id="hero-name">JD MECHATRONICS</span></h1>
+    <p class="hero-sub">Lebanon's specialists in <strong>manufacturing &amp; repair</strong><br>of all types of CNC machines</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn btn-primary">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3m10-10h-3M5 12H2m15.07-7.07-2.12 2.12M9.05 14.95l-2.12 2.12m0-14.14 2.12 2.12m5.9 5.9 2.12 2.12"/></svg>
+        Our Services
+      </a>
+      <a href="#" id="hero-wa-btn" target="_blank" rel="noopener" class="btn btn-ghost">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint"><div class="scroll-bar"></div><span>Scroll</span></div>
+</section>
+
+<section id="stats">
+  <div id="stats-wrap" class="stats-wrap"><!-- filled by JS --></div>
+</section>
+
+<section id="about" class="section">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-video-wrap" id="videoWrap">
+        <div class="glow-ring"></div><div class="glow-ring"></div><div class="glow-ring"></div>
+        <span class="corner corner-tl"></span><span class="corner corner-tr"></span>
+        <span class="corner corner-bl"></span><span class="corner corner-br"></span>
+        <video id="shopVideo" autoplay muted loop playsinline>
+          <source id="video-src" src="" type="video/mp4">
+        </video>
+        <div class="video-placeholder" id="vidFallback">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M10 8l5 3-5 3V8z" stroke-linejoin="round"/></svg>
+          <p>JD MECHATRONICS WORKSHOP</p>
+        </div>
+        <div class="video-ctrl-bar" id="video-ctrl-bar">
+          <button class="vc-btn" id="btn-play" onclick="toggleVideoPlay()" title="Play / Pause">⏸</button>
+          <button class="vc-btn" id="btn-mute" onclick="toggleVideoMute()" title="Sound">🔇</button>
+          <span class="vc-label">Workshop Video</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal d1">
+      <span class="label">About Us</span>
+      <h2 class="h2">Lebanon's CNC<br>Specialists</h2>
+      <p class="lead" id="about-text"></p>
+      <div class="about-features">
+        <div class="feat"><div class="feat-icon">⚙️</div><div><h4>Expert Technicians</h4><p>Highly skilled team with deep knowledge in CNC systems, electronics, and mechanical engineering.</p></div></div>
+        <div class="feat"><div class="feat-icon">🔧</div><div><h4>Full-Service Repair</h4><p>Complete diagnostics and repair for routers, laser systems, and all CNC machine types.</p></div></div>
+        <div class="feat"><div class="feat-icon">⚡</div><div><h4>Fast Turnaround</h4><p>We understand downtime costs money. Our team works efficiently to get your machines running again.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section">
+  <div class="services-wrap">
+    <div class="services-head reveal">
+      <span class="label">What We Do</span>
+      <h2 class="h2">Our CNC Services</h2>
+      <p class="lead">Manufacturing and repair for all major CNC machine types. Expert service for every precision system.</p>
+    </div>
+    <div id="services-cards" class="cards"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<section id="gallery" class="section">
+  <div class="gallery-wrap">
+    <div class="gallery-head reveal">
+      <span class="label">Our Work</span>
+      <h2 class="h2">Workshop Gallery</h2>
+      <p class="lead">See our machines and craftsmanship in action.</p>
+    </div>
+    <div id="gallery-grid" class="gallery-grid reveal"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="contact-wrap">
+    <div class="reveal">
+      <span class="label">Get In Touch</span>
+      <h2 class="h2">Contact JD<br>MECHATRONICS</h2>
+      <p class="lead">Ready to repair your CNC machine or start a new project? Reach out today.</p>
+      <div class="contact-cards">
+        <a href="#" id="contact-tel" class="cc">
+          <div class="cc-icon cc-phone">📞</div>
+          <div class="cc-text"><small>Phone</small><strong id="contact-phone-txt">03 694 231</strong></div>
+        </a>
+        <a href="#" id="contact-wa" target="_blank" rel="noopener" class="cc">
+          <div class="cc-icon cc-wa">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <div class="cc-text"><small>WhatsApp</small><strong>Chat with us now</strong></div>
+        </a>
+        <a href="#" id="contact-maps" target="_blank" rel="noopener" class="cc">
+          <div class="cc-icon cc-loc">📍</div>
+          <div class="cc-text"><small>Location — Open Maps</small><strong id="contact-loc">Baalbek, Lebanon</strong></div>
+        </a>
+      </div>
+    </div>
+    <div class="social-box reveal d2">
+      <h3>Follow Us</h3>
+      <p>Stay updated with our latest projects and machine builds.</p>
+      <div class="slinks">
+        <a href="#" id="ig-link" target="_blank" rel="noopener" class="slink slink-ig">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Instagram<span class="slink-arrow">↗</span>
+        </a>
+        <a href="#" id="fb-link" target="_blank" rel="noopener" class="slink slink-fb">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook<span class="slink-arrow">↗</span>
+        </a>
+        <a href="#" id="wa-social" target="_blank" rel="noopener" class="slink slink-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp<span class="slink-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo" id="footer-name">JD MECHATRONICS</div>
+  <p id="footer-info">Baalbek, Lebanon · 03 694 231</p>
+  <p style="margin-top:.8rem;font-size:.72rem;opacity:.4">© 2024 JD MECHATRONICS. All rights reserved.</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="lbBgClick(event)">
+  <button class="lb-close" onclick="closeLightbox()" title="Close">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1);event.stopPropagation()">‹</button>
+  <img id="lb-img" src="" alt="Gallery preview">
+  <button class="lb-nav lb-next" onclick="lbNav(1);event.stopPropagation()">›</button>
+  <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+<a href="#" id="wa-float" target="_blank" rel="noopener" title="WhatsApp us now">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
 <script>
-document.getElementById('year').textContent=new Date().getFullYear();
-const english=document.getElementById('main').innerHTML;
-const arabic=`<div class="hero"><div class="wrap" dir="rtl"><div class="eyebrow">بعلبك، لبنان · نخدم المنطقة العربية</div><h1>ماكينات صناعية.<br><span style="color:var(--cyan)">حلول تقنية عملية.</span></h1><p>خدمات تقنية لماكينات CNC والليزر فايبر وCO₂ والطباعة ثلاثية الأبعاد، من البرمجة والتركيب والتشغيل إلى تشخيص الأعطال والصيانة والتدريب.</p><a class="btn" href="https://wa.me/9613694231">تواصل عبر واتساب</a><a class="btn outline" href="#services">اكتشف الخدمات</a></div></div>
-<section id="services" dir="rtl"><div class="wrap"><div class="eyebrow">خدماتنا</div><h2>خدمات تقنية تناسب احتياجات ماكينتك</h2><p class="lead">دعم للورش والمصانع وأصحاب الماكينات في لبنان وسوريا والمنطقة العربية.</p><div class="grid">
-<div class="card"><div class="ico">⚡</div><h3>Fiber Laser</h3><p>إعداد الماكينات، معالجة مشاكل القص، ضبط أنظمة التحكم وتحسين الأداء.</p></div>
-<div class="card"><div class="ico">⚙️</div><h3>CNC Router</h3><p>البرمجة والإعداد وأنظمة الحركة والسيرفو والتشغيل وتشخيص الأعطال.</p></div>
-<div class="card"><div class="ico">🔥</div><h3>CO₂ Laser</h3><p>إعداد المتحكمات والماكينات وتشخيص الأعطال والصيانة.</p></div>
-<div class="card"><div class="ico">▦</div><h3>3D Printing</h3><p>إعداد الطابعات والمعايرة ومعالجة مشاكل الطباعة والتدريب.</p></div>
-<div class="card"><div class="ico">🛠️</div><h3>التركيب والصيانة</h3><p>تركيب الماكينات وتشغيلها والصيانة الوقائية والدعم الفني.</p></div>
-<div class="card"><div class="ico">📦</div><h3>الماكينات وقطع الغيار</h3><p>المساعدة التقنية في اختيار الماكينات وشرائها واستيرادها وتأمين قطع الغيار.</p></div></div></div></section>
-<section class="band" id="expertise" dir="rtl"><div class="wrap two"><div><div class="eyebrow">الخبرة التقنية</div><h2>أنظمة التحكم والسيرفو وربط الماكينات</h2><p class="lead">دعم عملي لمختلف مراحل التحكم بالماكينات، من إعدادات المتحكم إلى المحركات والتوصيلات وضبط التشغيل.</p></div><ul><li>متحكمات Raytools وXC3000S</li><li>متحكمات Ruida وأنظمة CO₂</li><li>السيرفو والمحركات وأنظمة الحركة</li><li>ماكينات CNC Router ونقش الحجر</li><li>إعداد الطابعات ثلاثية الأبعاد وتشخيص أعطالها</li><li>استشارات تقنية وتدريب عن بُعد</li></ul></div></section>
-<section id="about" dir="rtl"><div class="wrap two"><div><div class="eyebrow">من نحن</div><h2>حسين جمال الدين</h2><p class="lead">متخصص تقني مستقل في الميكاترونيكس والماكينات الصناعية، أعمل تحت اسم JD MECHATRONICS من بعلبك، لبنان.</p></div><div class="card"><h3>نطاق العمل</h3><p>المقر بعلبك، لبنان. خدمات للعملاء في لبنان وسوريا والدول العربية، مع إمكانية تقديم الاستشارات التقنية عن بُعد.</p></div></div></section>
-<section class="band" id="contact" dir="rtl"><div class="wrap"><div class="contact"><div class="eyebrow">لنعالج مشكلة ماكينتك</div><h2>هل تحتاج إلى دعم تقني أو حل لماكينتك؟</h2><p class="lead">تواصل مع حسين لاستفسارات CNC والليزر والطباعة ثلاثية الأبعاد، أو إعداد الماكينات وتشخيص الأعطال والتدريب والمساعدة في التوريد.</p><p><strong>الهاتف / واتساب:</strong> +961 3 694231<br><strong>الموقع:</strong> بعلبك، لبنان<br><strong>نطاق الخدمة:</strong> لبنان · سوريا · الدول العربية</p><a class="btn" href="https://wa.me/9613694231">راسل JD MECHATRONICS</a></div></div></section>`;
-function setLang(lang){document.documentElement.lang=lang;document.document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.getElementById('main').innerHTML=lang==='ar'?arabic:english;document.getElementById('navlinks').innerHTML=lang==='ar'?'<a href="#services">الخدمات</a><a href="#expertise">الخبرة</a><a href="#about">من نحن</a><a href="#contact">تواصل</a>':'<a href="#services">Services</a><a href="#expertise">Expertise</a><a href="#about">About</a><a href="#contact">Contact</a>';}
-</script></body></html>
+// ===================== CONFIG SYSTEM =====================
+const DEFAULT = {
+  business:{ name:"JD MECHATRONICS", phone:"03694231", whatsapp:"96103694231", location:"Baalbek, Lebanon", mapsUrl:"https://maps.google.com/?q=Baalbek,Lebanon", about:'Based in <strong style="color:var(--cyan)">Baalbek, Lebanon</strong>, JD MECHATRONICS is your trusted partner for manufacturing and repairing all types of CNC machines. We combine deep technical expertise with hands-on experience to deliver precision results every time.' },
+  social:{ instagram:"https://www.instagram.com/JD_MECHATRONICS", facebook:"https://www.facebook.com/JD.MECHATRONICS" },
+  media:{ video:"houssein/video.mp4", gallery:["houssein/img1.jpg","houssein/img2.jpg","houssein/img3.jpg","houssein/img4.jpg","houssein/img5.jpg"] },
+  stats:[ {value:10,suffix:"+",label:"Years Experience"},{value:5,suffix:"",label:"Machine Types"},{value:500,suffix:"+",label:"Machines Serviced"},{value:100,suffix:"%",label:"Client Satisfaction"} ],
+  services:[ {icon:"🗜️",title:"CNC Router",desc:"Manufacturing, installation, calibration and full repair services for all CNC router types — 3-axis, 4-axis and 5-axis systems."},{icon:"💡",title:"CO₂ Laser",desc:"Expert service for CO₂ laser cutting and engraving machines. Tube replacement, alignment, and complete system overhaul."},{icon:"⚡",title:"Fiber Laser",desc:"High-power fiber laser cutting machine manufacturing and repair. Precision maintenance for metal cutting systems."},{icon:"🎯",title:"Fiber Marking",desc:"Fiber laser marking machine service and repair. Optimal beam quality maintenance for detailed marking applications."},{icon:"🔵",title:"UV Laser",desc:"UV laser system manufacturing and repair for cold processing on sensitive materials and ultra-fine marking."},{icon:"📞",title:"Custom Solutions",desc:"Need something specific? Contact us for custom CNC manufacturing, upgrades, and specialized solutions tailored to your needs."} ]
+};
+
+function deepMerge(base, over){
+  const r = JSON.parse(JSON.stringify(base));
+  if(over.business) Object.assign(r.business, over.business);
+  if(over.social) Object.assign(r.social, over.social);
+  if(over.media) Object.assign(r.media, over.media);
+  if(over.stats) r.stats = over.stats;
+  if(over.services) r.services = over.services;
+  return r;
+}
+
+async function loadConfig(){
+  // 1. Try config.json (GitHub Pages - production)
+  try{
+    const res = await fetch('config.json');
+    if(res.ok){ const d = await res.json(); return deepMerge(DEFAULT,d); }
+  }catch(e){}
+  // 2. Try localStorage (admin preview)
+  try{
+    const ls = localStorage.getItem('jd_config');
+    if(ls) return deepMerge(DEFAULT, JSON.parse(ls));
+  }catch(e){}
+  return DEFAULT;
+}
+
+function applyConfig(cfg){
+  const b = cfg.business;
+  const ph = b.phone.replace(/\D/g,'');
+  const wa = b.whatsapp || '961'+ph;
+  const waHref = `https://wa.me/${wa}`;
+  const telHref = `tel:+961${ph}`;
+
+  // Business name & location
+  const $=id=>document.getElementById(id);
+  if($('logo-name')) $('logo-name').textContent = b.name;
+  if($('logo-loc'))  $('logo-loc').textContent  = b.location;
+  if($('hero-name')) $('hero-name').textContent  = b.name;
+  if($('hero-tagline')) $('hero-tagline').textContent = `CNC Manufacturing & Repair — ${b.location}`;
+  if($('about-text')) $('about-text').innerHTML = b.about;
+  if($('contact-loc'))  $('contact-loc').textContent = b.location;
+  if($('contact-maps')) $('contact-maps').href = b.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(b.location)}`;
+  if($('contact-phone-txt')) $('contact-phone-txt').textContent = b.phone;
+  if($('footer-name')) $('footer-name').textContent = b.name;
+  if($('footer-info')) $('footer-info').textContent = `${b.location} · ${b.phone}`;
+
+  // Links
+  if($('hero-wa-btn')) $('hero-wa-btn').href = waHref;
+  if($('contact-tel')) $('contact-tel').href = telHref;
+  if($('contact-wa'))  $('contact-wa').href  = waHref;
+  if($('wa-social'))   $('wa-social').href   = waHref;
+  if($('wa-float'))    $('wa-float').href     = waHref;
+  if($('ig-link'))     $('ig-link').href      = cfg.social.instagram || '#';
+  if($('fb-link'))     $('fb-link').href      = cfg.social.facebook  || '#';
+
+  // Video
+  const vsrc = $('video-src');
+  if(vsrc && cfg.media.video){
+    vsrc.src = cfg.media.video;
+    const vid = $('shopVideo');
+    if(vid){
+      vid.addEventListener('loadeddata',()=>{ vid.style.display='block'; const f=$('vidFallback'); if(f)f.style.display='none'; });
+      vid.load();
+    }
+  }
+
+  // Stats
+  const sw = $('stats-wrap');
+  if(sw) sw.innerHTML = cfg.stats.map((s,i)=>`
+    <div class="stat reveal${i>0?' d'+i:''}">
+      <h3 data-to="${s.value}" data-suf="${s.suffix}">${s.value}${s.suffix}</h3>
+      <p>${s.label}</p>
+    </div>`).join('');
+
+  // Services
+  const sc = $('services-cards');
+  if(sc) sc.innerHTML = cfg.services.map((s,i)=>`
+    <div class="card reveal${i>0?' d'+(i%5+1):''}${i===cfg.services.length-1?' card-last':''}">
+      <div class="card-icon">${s.icon}</div>
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+    </div>`).join('');
+
+  // Gallery
+  const gg = $('gallery-grid');
+  if(gg) gg.innerHTML = (cfg.media.gallery||[]).map((src,i)=>`
+    <div class="g-item${i===0?' g-featured':''}">
+      <div class="g-ph">
+        <svg width="${i===0?36:28}" height="${i===0?36:28}" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>${i===0?'Main Workshop':'Photo '+(i+1)}</span>
+      </div>
+      ${src?`<img src="${src}" alt="JD MECHATRONICS" loading="lazy" onerror="this.style.display='none'">`:``}
+      <div class="g-overlay"></div>
+    </div>`).join('');
+}
+
+// ===================== ANIMATIONS =====================
+function initAnimations(){
+  // Scroll reveal (runs AFTER content generation)
+  const ro = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)} });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+  // Counter
+  function runCounter(el){
+    const target=parseInt(el.dataset.to), suf=el.dataset.suf||'';
+    const step=target/(1800/16); let cur=0;
+    const t=setInterval(()=>{ cur=Math.min(cur+step,target); el.textContent=Math.round(cur)+suf; if(cur>=target)clearInterval(t); },16);
+  }
+  const co = new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){ document.querySelectorAll('[data-to]').forEach(runCounter); co.disconnect(); }
+  },{threshold:.5});
+  const st=document.getElementById('stats'); if(st) co.observe(st);
+
+  // Particle canvas
+  const cv=document.getElementById('hero-canvas'), cx=cv.getContext('2d');
+  let W,H,pts;
+  function initPts(){
+    W=cv.width=innerWidth; H=cv.height=innerHeight;
+    pts=Array.from({length:Math.min(90,Math.floor(W/14))},()=>({
+      x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,
+      r:Math.random()*1.4+.4,a:Math.random()*.35+.08,c:Math.random()>.5?'0,212,255':'50,120,255'
+    }));
+  }
+  let mx=null,my=null;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+  function drawPts(){
+    cx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i];
+      if(mx!==null){const dx=mx-p.x,dy=my-p.y,d=Math.hypot(dx,dy);if(d<110){p.x-=dx*.018;p.y-=dy*.018}}
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(${p.c},${p.a})`;cx.fill();
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+        if(d<115){cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.strokeStyle=`rgba(0,212,255,${.07*(1-d/115)})`;cx.lineWidth=.5;cx.stroke();}
+      }
+    }
+    requestAnimationFrame(drawPts);
+  }
+  initPts();drawPts();window.addEventListener('resize',initPts);
+
+  // Nav scroll
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+}
+
+// ===================== NAV MENU =====================
+function toggleMenu(){ document.getElementById('burger').classList.toggle('open'); document.getElementById('navMenu').classList.toggle('open'); }
+function closeMenu(){ document.getElementById('burger').classList.remove('open'); document.getElementById('navMenu').classList.remove('open'); }
+
+// ===================== LIGHTBOX =====================
+let _lbIdx = 0;
+function _lbImgs(){ return Array.from(document.querySelectorAll('#gallery-grid .g-item img')); }
+function openLightbox(idx){
+  const imgs = _lbImgs();
+  if(!imgs.length) return;
+  _lbIdx = idx;
+  document.getElementById('lb-img').src = imgs[_lbIdx].src;
+  document.getElementById('lb-counter').textContent = `${_lbIdx+1} / ${imgs.length}`;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+function lbBgClick(e){ if(e.target===document.getElementById('lightbox')) closeLightbox(); }
+function lbNav(dir){
+  const imgs=_lbImgs(); if(!imgs.length) return;
+  _lbIdx=(_lbIdx+dir+imgs.length)%imgs.length;
+  document.getElementById('lb-img').src=imgs[_lbIdx].src;
+  document.getElementById('lb-counter').textContent=`${_lbIdx+1} / ${imgs.length}`;
+}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lightbox').classList.contains('open')) return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowLeft') lbNav(-1);
+  if(e.key==='ArrowRight') lbNav(1);
+});
+// gallery click delegation — works with dynamic content
+document.getElementById('gallery-grid').addEventListener('click',e=>{
+  const item=e.target.closest('.g-item'); if(!item) return;
+  const imgs=_lbImgs();
+  const allItems=Array.from(document.querySelectorAll('#gallery-grid .g-item'));
+  const idx=allItems.indexOf(item);
+  if(idx>=0) openLightbox(idx);
+});
+
+// ===================== VIDEO CONTROLS =====================
+function toggleVideoPlay(){
+  const v=document.getElementById('shopVideo');
+  const btn=document.getElementById('btn-play');
+  if(v.paused){ v.play(); btn.textContent='⏸'; }
+  else { v.pause(); btn.textContent='▶'; }
+}
+function toggleVideoMute(){
+  const v=document.getElementById('shopVideo');
+  const btn=document.getElementById('btn-mute');
+  v.muted=!v.muted;
+  btn.textContent=v.muted?'🔇':'🔊';
+}
+// Show video control bar when video loads
+(function(){
+  const v=document.getElementById('shopVideo');
+  if(v){
+    v.addEventListener('loadeddata',()=>{
+      const bar=document.getElementById('video-ctrl-bar');
+      if(bar) bar.style.display='flex';
+    });
+  }
+})();
+
+// ===================== BOOT =====================
+loadConfig().then(cfg=>{ applyConfig(cfg); initAnimations(); });
+</script>
+</body>
+</html>
