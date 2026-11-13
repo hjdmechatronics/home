@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JD Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--cyan:#00d4ff;--blue:#0066ff;--dark:#07070f;--dark2:#0e0e1a;--dark3:#161628;--border:rgba(255,255,255,.08);--text:#e2e2ef;--muted:#6b6b88;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--dark);color:var(--text);overflow:hidden}
+input,textarea,select{font-family:inherit}
+
+/* ===== LOGIN ===== */
+#login-screen{position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;align-items:center;justify-content:center;background-image:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(0,102,255,.1) 0%,transparent 70%)}
+.login-box{background:rgba(255,255,255,.03);border:1px solid rgba(0,212,255,.2);border-radius:24px;padding:3rem 2.5rem;width:360px;text-align:center}
+.login-logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:700;font-size:20px;color:#000;margin:0 auto 1.5rem}
+.login-box h2{font-size:1.4rem;font-weight:800;margin-bottom:.4rem}
+.login-box p{color:var(--muted);font-size:.88rem;margin-bottom:2rem}
+.login-box input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;color:var(--text);font-size:1rem;outline:none;transition:border-color .2s;text-align:center;letter-spacing:3px}
+.login-box input:focus{border-color:var(--cyan)}
+.login-btn{width:100%;margin-top:1rem;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000;border:none;border-radius:12px;padding:.9rem;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,212,255,.35)}
+#login-error{color:var(--red);font-size:.82rem;margin-top:.8rem;min-height:1.2rem}
+
+/* ===== DASHBOARD LAYOUT ===== */
+#dashboard{display:none;height:100vh;flex-direction:column}
+#dashboard.show{display:flex}
+
+/* Header */
+.d-header{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.5rem;background:rgba(7,7,15,.9);border-bottom:1px solid var(--border);flex-shrink:0}
+.d-header-logo{display:flex;align-items:center;gap:10px}
+.d-header-logo .box{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;color:#000}
+.d-header-logo span{font-family:'Orbitron',sans-serif;font-weight:700;font-size:.85rem;background:linear-gradient(90deg,var(--cyan),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.d-header-logo small{color:var(--muted);font-size:.7rem;margin-left:4px;-webkit-text-fill-color:var(--muted)}
+.d-header-actions{display:flex;align-items:center;gap:.7rem}
+.d-header-actions a,.d-header-actions button{padding:.45rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;border:none;transition:all .2s}
+.btn-preview{background:rgba(0,212,255,.12);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+.btn-preview:hover{background:rgba(0,212,255,.2)}
+.btn-logout{background:rgba(255,255,255,.06);color:var(--muted)}
+.btn-logout:hover{color:var(--text)}
+
+/* Body */
+.d-body{display:flex;flex:1;overflow:hidden}
+
+/* Sidebar */
+.d-sidebar{width:200px;flex-shrink:0;background:var(--dark2);border-right:1px solid var(--border);padding:1rem .7rem;display:flex;flex-direction:column;gap:.3rem;overflow-y:auto}
+.tab-btn{display:flex;align-items:center;gap:.7rem;width:100%;padding:.7rem .9rem;border:none;border-radius:10px;background:transparent;color:var(--muted);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
+.tab-btn:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.tab-btn.active{background:rgba(0,212,255,.12);color:var(--cyan);font-weight:600}
+.tab-btn .ti{font-size:1rem;width:20px;text-align:center}
+.sidebar-sep{height:1px;background:var(--border);margin:.5rem 0}
+
+/* Content */
+.d-content{flex:1;overflow-y:auto;padding:0}
+.tab-panel{display:none;padding:2rem;max-width:860px}
+.tab-panel.active{display:block}
+.panel-title{font-size:1.3rem;font-weight:800;margin-bottom:.4rem}
+.panel-desc{color:var(--muted);font-size:.87rem;margin-bottom:2rem;line-height:1.6}
+
+/* Form elements */
+.form-row{margin-bottom:1.4rem}
+.form-row label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:.5rem}
+.form-row input[type=text],
+.form-row input[type=password],
+.form-row input[type=number],
+.form-row input[type=url],
+.form-row textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.75rem 1rem;color:var(--text);font-size:.93rem;outline:none;transition:border-color .2s;resize:vertical}
+.form-row input:focus,.form-row textarea:focus{border-color:rgba(0,212,255,.4);background:rgba(0,212,255,.03)}
+.form-row textarea{min-height:100px;line-height:1.6}
+.form-hint{font-size:.75rem;color:var(--muted);margin-top:.4rem;line-height:1.5}
+
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+
+/* Cards in forms */
+.form-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:14px;padding:1.3rem 1.5rem;margin-bottom:1rem}
+.form-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.form-card-header span{font-size:.8rem;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:1px}
+.form-card-header button{background:transparent;border:1px solid rgba(239,68,68,.3);color:var(--red);border-radius:7px;padding:.3rem .7rem;font-size:.75rem;cursor:pointer;transition:all .2s}
+.form-card-header button:hover{background:rgba(239,68,68,.1)}
+
+/* Gallery rows */
+.gallery-row{display:grid;grid-template-columns:1fr 56px 32px;gap:.6rem;align-items:center;margin-bottom:.7rem}
+.gallery-row input{margin:0}
+.gallery-thumb{width:56px;height:56px;border-radius:8px;object-fit:cover;background:var(--dark3);border:1px solid var(--border)}
+.gallery-thumb-ph{width:56px;height:56px;border-radius:8px;background:var(--dark3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--muted);text-align:center;line-height:1.3}
+.gallery-del{width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid rgba(239,68,68,.3);color:var(--red);cursor:pointer;font-size:1rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.gallery-del:hover{background:rgba(239,68,68,.1)}
+.add-gallery-btn{display:inline-flex;align-items:center;gap:6px;padding:.6rem 1.1rem;background:rgba(0,212,255,.08);border:1px dashed rgba(0,212,255,.3);color:var(--cyan);border-radius:10px;font-size:.83rem;font-weight:600;cursor:pointer;transition:all .2s;width:100%;justify-content:center;margin-top:.3rem}
+.add-gallery-btn:hover{background:rgba(0,212,255,.14)}
+
+/* Video preview */
+.video-preview-wrap{margin-top:.8rem;border-radius:12px;overflow:hidden;background:var(--dark3);border:1px solid var(--border);max-height:180px}
+.video-preview-wrap video{width:100%;max-height:180px;object-fit:cover;display:block}
+
+/* Footer bar */
+.d-footer{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;background:var(--dark2);border-top:1px solid var(--border);flex-shrink:0;gap:1rem;flex-wrap:wrap}
+.d-footer-status{font-size:.8rem;color:var(--muted)}
+.d-footer-status .ok{color:var(--green)}
+.d-footer-status .err{color:var(--red)}
+.footer-btns{display:flex;gap:.7rem}
+.footer-btns button{padding:.6rem 1.3rem;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.btn-save{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green)}
+.btn-save:hover{background:rgba(34,197,94,.25)}
+.btn-dl{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000}
+.btn-dl:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,212,255,.3)}
+
+/* Toast */
+#toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:.7rem 1.4rem;font-size:.85rem;font-weight:600;opacity:0;transition:all .3s;z-index:9998;white-space:nowrap;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:rgba(34,197,94,.4);color:var(--green)}
+#toast.err{border-color:rgba(239,68,68,.4);color:var(--red)}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:80px 60px 1fr;gap:.7rem;align-items:end;margin-bottom:.7rem}
+
+/* Info banner */
+.info-banner{background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:1rem 1.2rem;font-size:.83rem;color:rgba(0,212,255,.9);line-height:1.6;margin-bottom:1.5rem}
+.info-banner strong{color:var(--cyan)}
+
+/* Scrollbar */
+.d-content::-webkit-scrollbar,.d-sidebar::-webkit-scrollbar{width:4px}
+.d-content::-webkit-scrollbar-thumb,.d-sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* Mobile */
+@media(max-width:600px){
+  .d-sidebar{width:52px}
+  .tab-btn span:not(.ti){display:none}
+  .tab-panel{padding:1.2rem}
+  .form-grid-2,.form-grid-3,.stat-row{grid-template-columns:1fr}
+  .gallery-row{grid-template-columns:1fr 32px}
+  .gallery-thumb,.gallery-thumb-ph{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">JD</div>
+    <h2>Admin Login</h2>
+    <p>Enter your password to access the dashboard</p>
+    <input type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')tryLogin()">
+    <button class="login-btn" onclick="tryLogin()">Login</button>
+    <p id="login-error"></p>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard">
+
+  <header class="d-header">
+    <div class="d-header-logo">
+      <div class="box">JD</div>
+      <span>JD MECHATRONICS</span>
+      <small>Admin</small>
+    </div>
+    <div class="d-header-actions">
+      <a href="index.html" target="_blank" class="btn-preview">👁 Preview Site</a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="d-body">
+
+    <!-- Sidebar -->
+    <nav class="d-sidebar">
+      <button class="tab-btn active" data-tab="info"><span class="ti">📋</span><span>Site Info</span></button>
+      <button class="tab-btn" data-tab="social"><span class="ti">🔗</span><span>Social Links</span></button>
+      <button class="tab-btn" data-tab="media"><span class="ti">🎬</span><span>Media</span></button>
+      <div class="sidebar-sep"></div>
+      <button class="tab-btn" data-tab="stats"><span class="ti">📊</span><span>Statistics</span></button>
+      <button class="tab-btn" data-tab="services"><span class="ti">⚙️</span><span>Services</span></button>
+      <div class="sidebar-sep"></div>
+      <button class="tab-btn" data-tab="security"><span class="ti">🔒</span><span>Security</span></button>
+    </nav>
+
+    <!-- Content panels -->
+    <div class="d-content">
+
+      <!-- INFO -->
+      <div class="tab-panel active" id="tab-info">
+        <div class="panel-title">Site Information</div>
+        <div class="panel-desc">Basic business details that appear across the website.</div>
+        <div class="form-row"><label>Business Name</label><input type="text" id="f-name" placeholder="JD MECHATRONICS"></div>
+        <div class="form-grid-2">
+          <div class="form-row"><label>Phone Number</label><input type="text" id="f-phone" placeholder="03694231"><div class="form-hint">Lebanese number, without +961</div></div>
+          <div class="form-row"><label>WhatsApp Number</label><input type="text" id="f-whatsapp" placeholder="96103694231"><div class="form-hint">With country code (961...)</div></div>
+        </div>
+        <div class="form-row"><label>Location</label><input type="text" id="f-location" placeholder="Baalbek, Lebanon"></div>
+        <div class="form-row"><label>📍 Google Maps Link</label><input type="url" id="f-maps" placeholder="https://maps.google.com/?q=..."><div class="form-hint">افتح Google Maps → ابحث عن محلك → انسخ الرابط من المتصفح والصقه هنا</div></div>
+        <div class="form-row"><label>About Us Text</label><textarea id="f-about" rows="4" placeholder="Describe your business..."></textarea><div class="form-hint">You can use &lt;strong&gt;text&lt;/strong&gt; for bold words.</div></div>
+      </div>
+
+      <!-- SOCIAL -->
+      <div class="tab-panel" id="tab-social">
+        <div class="panel-title">Social Media Links</div>
+        <div class="panel-desc">Paste the full URL of your social media pages. These appear in the contact section and footer.</div>
+        <div class="form-row">
+          <label>📸 Instagram URL</label>
+          <input type="url" id="f-instagram" placeholder="https://www.instagram.com/YourPage">
+          <div class="form-hint">Example: https://www.instagram.com/JD_MECHATRONICS</div>
+        </div>
+        <div class="form-row">
+          <label>👍 Facebook URL</label>
+          <input type="url" id="f-facebook" placeholder="https://www.facebook.com/YourPage">
+          <div class="form-hint">Example: https://www.facebook.com/JD.MECHATRONICS</div>
+        </div>
+        <div class="info-banner">💬 <strong>WhatsApp</strong> is managed from the <strong>Site Info</strong> tab — the WhatsApp number is used automatically.</div>
+      </div>
+
+      <!-- MEDIA -->
+      <div class="tab-panel" id="tab-media">
+        <div class="panel-title">Media Files</div>
+        <div class="panel-desc">Manage the video and gallery images. All files should be placed inside the <strong>houssein/</strong> folder.</div>
+
+        <div class="form-row">
+          <label>🎬 Workshop Video</label>
+          <input type="text" id="f-video" placeholder="houssein/video.mp4" oninput="previewVideo()">
+          <div class="form-hint">File path relative to index.html — example: houssein/video.mp4</div>
+          <div class="video-preview-wrap" id="vid-preview-wrap" style="display:none">
+            <video id="vid-preview" muted autoplay loop playsinline></video>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>🖼️ Gallery Images <small style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(first image appears large)</small></label>
+          <div id="gallery-list"></div>
+          <button class="add-gallery-btn" onclick="addGalleryRow()">＋ Add Image</button>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="tab-panel" id="tab-stats">
+        <div class="panel-title">Statistics</div>
+        <div class="panel-desc">The numbers shown in the stats bar under the hero section.</div>
+        <div style="margin-bottom:.5rem">
+          <div style="display:grid;grid-template-columns:80px 60px 1fr;gap:.7rem;padding:0 0 .4rem;font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">
+            <span>NUMBER</span><span>SUFFIX</span><span>LABEL</span>
+          </div>
+          <div id="stats-list"></div>
+        </div>
+      </div>
+
+      <!-- SERVICES -->
+      <div class="tab-panel" id="tab-services">
+        <div class="panel-title">Services</div>
+        <div class="panel-desc">The 6 service cards shown on the website. Edit the icon (emoji), title and description for each.</div>
+        <div id="services-list"></div>
+      </div>
+
+      <!-- SECURITY -->
+      <div class="tab-panel" id="tab-security">
+        <div class="panel-title">Security</div>
+        <div class="panel-desc">Change your admin dashboard password.</div>
+        <div class="form-row"><label>Current Password</label><input type="password" id="f-pwd-current" placeholder="••••••••"></div>
+        <div class="form-grid-2">
+          <div class="form-row"><label>New Password</label><input type="password" id="f-pwd-new" placeholder="••••••••"></div>
+          <div class="form-row"><label>Confirm New Password</label><input type="password" id="f-pwd-confirm" placeholder="••••••••"></div>
+        </div>
+        <button onclick="changePassword()" style="background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000;border:none;border-radius:10px;padding:.75rem 1.6rem;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:.5rem">Change Password</button>
+        <div id="pwd-msg" style="margin-top:1rem;font-size:.85rem;min-height:1.2rem"></div>
+        <div class="info-banner" style="margin-top:1.5rem">⚠️ After changing your password, click <strong>Download config.json</strong> at the bottom and upload it to GitHub to apply the new password on the live site.</div>
+      </div>
+
+    </div><!-- /d-content -->
+  </div><!-- /d-body -->
+
+  <footer class="d-footer">
+    <div class="d-footer-status" id="save-status">Not saved yet</div>
+    <div class="footer-btns">
+      <button class="btn-save" onclick="saveToBrowser()">💾 Save to Browser</button>
+      <button class="btn-dl" onclick="downloadConfig()">📥 Download config.json</button>
+    </div>
+  </footer>
+
+</div><!-- /dashboard -->
+
+<div id="toast"></div>
+
+<script>
+// ===================== DATA =====================
+const DEFAULT = {
+  business:{ name:"JD MECHATRONICS", phone:"03694231", whatsapp:"96103694231", location:"Baalbek, Lebanon", mapsUrl:"https://maps.google.com/?q=Baalbek,Lebanon", about:'Based in <strong style="color:var(--cyan)">Baalbek, Lebanon</strong>, JD MECHATRONICS is your trusted partner for manufacturing and repairing all types of CNC machines. We combine deep technical expertise with hands-on experience to deliver precision results every time.' },
+  social:{ instagram:"https://www.instagram.com/JD_MECHATRONICS", facebook:"https://www.facebook.com/JD.MECHATRONICS" },
+  media:{ video:"houssein/video.mp4", gallery:["houssein/img1.jpg","houssein/img2.jpg","houssein/img3.jpg","houssein/img4.jpg","houssein/img5.jpg"] },
+  stats:[{value:10,suffix:"+",label:"Years Experience"},{value:5,suffix:"",label:"Machine Types"},{value:500,suffix:"+",label:"Machines Serviced"},{value:100,suffix:"%",label:"Client Satisfaction"}],
+  services:[{icon:"🗜️",title:"CNC Router",desc:"Manufacturing, installation, calibration and full repair services for all CNC router types — 3-axis, 4-axis and 5-axis systems."},{icon:"💡",title:"CO₂ Laser",desc:"Expert service for CO₂ laser cutting and engraving machines. Tube replacement, alignment, and complete system overhaul."},{icon:"⚡",title:"Fiber Laser",desc:"High-power fiber laser cutting machine manufacturing and repair. Precision maintenance for metal cutting systems."},{icon:"🎯",title:"Fiber Marking",desc:"Fiber laser marking machine service and repair. Optimal beam quality maintenance for detailed marking applications."},{icon:"🔵",title:"UV Laser",desc:"UV laser system manufacturing and repair for cold processing on sensitive materials and ultra-fine marking."},{icon:"📞",title:"Custom Solutions",desc:"Need something specific? Contact us for custom CNC manufacturing, upgrades, and specialized solutions tailored to your needs."}],
+  admin:{ password:"jd2024" }
+};
+
+let CFG = JSON.parse(JSON.stringify(DEFAULT));
+let adminPwd = "jd2024";
+
+// ===================== AUTH =====================
+function tryLogin(){
+  const pwd = document.getElementById('pwd-input').value.trim();
+  if(!pwd){ document.getElementById('login-error').textContent='Enter your password'; return; }
+  if(pwd === adminPwd){
+    sessionStorage.setItem('jd_admin','1');
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('dashboard').classList.add('show');
+  } else {
+    document.getElementById('login-error').textContent='❌ Wrong password';
+    document.getElementById('pwd-input').value='';
+  }
+}
+function logout(){
+  sessionStorage.removeItem('jd_admin');
+  document.getElementById('dashboard').classList.remove('show');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-error').textContent='';
+  document.getElementById('pwd-input').value='';
+}
+
+// ===================== CONFIG LOAD =====================
+async function loadCFG(){
+  try{ const r=await fetch('config.json'); if(r.ok){ CFG=deepMerge(DEFAULT,await r.json()); } }
+  catch(e){
+    try{ const ls=localStorage.getItem('jd_config'); if(ls) CFG=deepMerge(DEFAULT,JSON.parse(ls)); }catch(e2){}
+  }
+  if(CFG.admin?.password) adminPwd=CFG.admin.password;
+  // Check session
+  if(sessionStorage.getItem('jd_admin')==='1'){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('dashboard').classList.add('show');
+  }
+  fillForms();
+}
+
+function deepMerge(base, over){
+  const r=JSON.parse(JSON.stringify(base));
+  if(over.business) Object.assign(r.business,over.business);
+  if(over.social) Object.assign(r.social,over.social);
+  if(over.media) Object.assign(r.media,over.media);
+  if(over.stats) r.stats=over.stats;
+  if(over.services) r.services=over.services;
+  if(over.admin) Object.assign(r.admin,over.admin);
+  return r;
+}
+
+// ===================== FILL FORMS =====================
+function fillForms(){
+  const b=CFG.business;
+  document.getElementById('f-name').value = b.name||'';
+  document.getElementById('f-phone').value = b.phone||'';
+  document.getElementById('f-whatsapp').value = b.whatsapp||'';
+  document.getElementById('f-location').value = b.location||'';
+  document.getElementById('f-maps').value = b.mapsUrl||'';
+  document.getElementById('f-about').value = (b.about||'').replace(/<[^>]+>/g,'');
+
+  document.getElementById('f-instagram').value = CFG.social.instagram||'';
+  document.getElementById('f-facebook').value  = CFG.social.facebook||'';
+
+  document.getElementById('f-video').value = CFG.media.video||'';
+
+  buildGalleryList(CFG.media.gallery||[]);
+  buildStatsList(CFG.stats||DEFAULT.stats);
+  buildServicesList(CFG.services||DEFAULT.services);
+}
+
+// ===================== GALLERY =====================
+function buildGalleryList(arr){
+  const c=document.getElementById('gallery-list');
+  c.innerHTML='';
+  arr.forEach((src,i)=>addGalleryRow(src));
+}
+function addGalleryRow(src=''){
+  const c=document.getElementById('gallery-list');
+  const id='gr_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  const row=document.createElement('div');
+  row.className='gallery-row'; row.id=id;
+  const inp=document.createElement('input'); inp.type='text'; inp.value=src; inp.placeholder='houssein/img1.jpg';
+  inp.oninput=()=>updateThumb(id,inp.value);
+  const thumb=document.createElement('img'); thumb.className='gallery-thumb'; thumb.alt='';
+  if(src){ thumb.src=src; thumb.onerror=()=>{thumb.style.display='none'; ph.style.display='flex'}; }
+  const ph=document.createElement('div'); ph.className='gallery-thumb-ph'; ph.textContent='No\nimage'; ph.style.display=src?'none':'flex';
+  thumb.style.display=src?'block':'none';
+  const del=document.createElement('button'); del.className='gallery-del'; del.textContent='✕'; del.title='Remove'; del.onclick=()=>row.remove();
+  row.append(inp,thumb,ph,del); c.appendChild(row);
+}
+function updateThumb(rowId,src){
+  const row=document.getElementById(rowId);
+  if(!row) return;
+  const img=row.querySelector('.gallery-thumb'), ph=row.querySelector('.gallery-thumb-ph');
+  if(src){ img.src=src; img.style.display='block'; ph.style.display='none'; img.onerror=()=>{img.style.display='none';ph.style.display='flex'}; }
+  else { img.style.display='none'; ph.style.display='flex'; }
+}
+
+// ===================== STATS =====================
+function buildStatsList(arr){
+  const c=document.getElementById('stats-list');
+  c.innerHTML=arr.map((s,i)=>`
+    <div class="stat-row">
+      <input type="number" id="sv_${i}" value="${s.value}" min="0" style="text-align:center">
+      <input type="text"   id="ss_${i}" value="${s.suffix}" placeholder="+" style="text-align:center">
+      <input type="text"   id="sl_${i}" value="${s.label}" placeholder="Label">
+    </div>`).join('');
+}
+function collectStats(){
+  const arr=[];
+  let i=0;
+  while(document.getElementById('sv_'+i)){
+    arr.push({ value:parseInt(document.getElementById('sv_'+i).value)||0, suffix:document.getElementById('ss_'+i).value, label:document.getElementById('sl_'+i).value });
+    i++;
+  }
+  return arr;
+}
+
+// ===================== SERVICES =====================
+function buildServicesList(arr){
+  const c=document.getElementById('services-list');
+  c.innerHTML=arr.map((s,i)=>`
+    <div class="form-card">
+      <div class="form-card-header"><span>Service ${i+1}</span></div>
+      <div class="form-grid-2" style="margin-bottom:.8rem">
+        <div class="form-row" style="margin:0"><label>Icon (emoji)</label><input type="text" id="sci_${i}" value="${s.icon}" placeholder="🔧" style="font-size:1.3rem;text-align:center;letter-spacing:2px"></div>
+        <div class="form-row" style="margin:0"><label>Title</label><input type="text" id="sct_${i}" value="${s.title}" placeholder="Service name"></div>
+      </div>
+      <div class="form-row" style="margin:0"><label>Description</label><textarea id="scd_${i}" rows="2">${s.desc}</textarea></div>
+    </div>`).join('');
+}
+function collectServices(){
+  const arr=[];
+  let i=0;
+  while(document.getElementById('sci_'+i)){
+    arr.push({ icon:document.getElementById('sci_'+i).value, title:document.getElementById('sct_'+i).value, desc:document.getElementById('scd_'+i).value });
+    i++;
+  }
+  return arr;
+}
+
+// ===================== VIDEO PREVIEW =====================
+function previewVideo(){
+  const src=document.getElementById('f-video').value.trim();
+  const wrap=document.getElementById('vid-preview-wrap');
+  const vid=document.getElementById('vid-preview');
+  if(src){ wrap.style.display='block'; vid.src=src; vid.load(); }
+  else { wrap.style.display='none'; }
+}
+
+// ===================== COLLECT CONFIG =====================
+function collectConfig(){
+  const aboutRaw=document.getElementById('f-about').value.trim();
+  const loc=document.getElementById('f-location').value.trim()||'Baalbek, Lebanon';
+  const aboutHTML=aboutRaw.replace(loc,`<strong style="color:var(--cyan)">${loc}</strong>`);
+
+  const gallery=[];
+  document.querySelectorAll('#gallery-list .gallery-row input[type=text]').forEach(inp=>{
+    if(inp.value.trim()) gallery.push(inp.value.trim());
+  });
+
+  return {
+    business:{
+      name: document.getElementById('f-name').value.trim()||CFG.business.name,
+      phone: document.getElementById('f-phone').value.trim(),
+      whatsapp: document.getElementById('f-whatsapp').value.trim(),
+      location: loc,
+      mapsUrl: document.getElementById('f-maps').value.trim() || `https://maps.google.com/?q=${encodeURIComponent(loc)}`,
+      about: aboutHTML
+    },
+    social:{
+      instagram: document.getElementById('f-instagram').value.trim(),
+      facebook:  document.getElementById('f-facebook').value.trim()
+    },
+    media:{
+      video: document.getElementById('f-video').value.trim(),
+      gallery
+    },
+    stats: collectStats(),
+    services: collectServices(),
+    admin:{ password: CFG.admin?.password || adminPwd }
+  };
+}
+
+// ===================== SAVE =====================
+function saveToBrowser(){
+  try{
+    const cfg=collectConfig();
+    localStorage.setItem('jd_config', JSON.stringify(cfg));
+    CFG=deepMerge(DEFAULT,cfg);
+    const st=document.getElementById('save-status');
+    const now=new Date().toLocaleTimeString();
+    st.innerHTML=`<span class="ok">✓ Saved — ${now}</span>`;
+    showToast('✓ Saved to browser! Open index.html to preview.','ok');
+  }catch(e){ showToast('Error saving: '+e.message,'err'); }
+}
+
+function downloadConfig(){
+  try{
+    const cfg=collectConfig();
+    const json=JSON.stringify(cfg,null,2);
+    const blob=new Blob([json],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='config.json'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('📥 config.json downloaded! Upload it to GitHub.','ok');
+  }catch(e){ showToast('Error: '+e.message,'err'); }
+}
+
+// ===================== PASSWORD =====================
+function changePassword(){
+  const cur=document.getElementById('f-pwd-current').value;
+  const nw=document.getElementById('f-pwd-new').value;
+  const cf=document.getElementById('f-pwd-confirm').value;
+  const msg=document.getElementById('pwd-msg');
+  if(cur!==adminPwd){ msg.style.color='var(--red)'; msg.textContent='❌ Current password is wrong'; return; }
+  if(nw.length<4){ msg.style.color='var(--red)'; msg.textContent='❌ New password must be at least 4 characters'; return; }
+  if(nw!==cf){ msg.style.color='var(--red)'; msg.textContent='❌ Passwords do not match'; return; }
+  adminPwd=nw;
+  if(!CFG.admin) CFG.admin={};
+  CFG.admin.password=nw;
+  document.getElementById('f-pwd-current').value='';
+  document.getElementById('f-pwd-new').value='';
+  document.getElementById('f-pwd-confirm').value='';
+  msg.style.color='var(--green)';
+  msg.textContent='✓ Password changed! Download config.json to apply on GitHub.';
+  showToast('Password changed! Download config.json.','ok');
+}
+
+// ===================== TABS =====================
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ===================== TOAST =====================
+let toastTimer;
+function showToast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='show '+type;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.className='',3000);
+}
+
+// ===================== BOOT =====================
+loadCFG();
+</script>
+</body>
+</html>
