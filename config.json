@@ -1,0 +1,81 @@
+{
+  "business": {
+    "name": "JD MECHATRONICS",
+    "phone": "03694231",
+    "whatsapp": "96103694231",
+    "location": "Baalbek, Lebanon",
+    "mapsUrl": "https://maps.google.com/?q=Baalbek,Lebanon",
+    "about": "Based in <strong style=\"color:var(--cyan)\">Baalbek, Lebanon</strong>, JD MECHATRONICS is your trusted partner for manufacturing and repairing all types of CNC machines. We combine deep technical expertise with hands-on experience to deliver precision results every time."
+  },
+  "social": {
+    "instagram": "https://www.instagram.com/JD_MECHATRONICS",
+    "facebook": "https://www.facebook.com/JD.MECHATRONICS"
+  },
+  "media": {
+    "video": "video.mp4",
+    "gallery": [
+      "img1.jpeg",
+      "img2.jpeg",
+      "img3.jpeg",
+      "img4.jpeg",
+      "img5.jpeg"
+    ]
+  },
+  "stats": [
+    {
+      "value": 10,
+      "suffix": "+",
+      "label": "Years Experience"
+    },
+    {
+      "value": 5,
+      "suffix": "",
+      "label": "Machine Types"
+    },
+    {
+      "value": 500,
+      "suffix": "+",
+      "label": "Machines Serviced"
+    },
+    {
+      "value": 100,
+      "suffix": "%",
+      "label": "Client Satisfaction"
+    }
+  ],
+  "services": [
+    {
+      "icon": "🗜️",
+      "title": "CNC Router",
+      "desc": "Manufacturing, installation, calibration and full repair services for all CNC router types — 3-axis, 4-axis and 5-axis systems."
+    },
+    {
+      "icon": "💡",
+      "title": "CO₂ Laser",
+      "desc": "Expert service for CO₂ laser cutting and engraving machines. Tube replacement, alignment, and complete system overhaul."
+    },
+    {
+      "icon": "⚡",
+      "title": "Fiber Laser",
+      "desc": "High-power fiber laser cutting machine manufacturing and repair. Precision maintenance for metal cutting systems."
+    },
+    {
+      "icon": "🎯",
+      "title": "Fiber Marking",
+      "desc": "Fiber laser marking machine service and repair. Optimal beam quality maintenance for detailed marking applications."
+    },
+    {
+      "icon": "🔵",
+      "title": "UV Laser",
+      "desc": "UV laser system manufacturing and repair for cold processing on sensitive materials and ultra-fine marking."
+    },
+    {
+      "icon": "📞",
+      "title": "Custom Solutions",
+      "desc": "Need something specific? Contact us for custom CNC manufacturing, upgrades, and specialized solutions tailored to your needs."
+    }
+  ],
+  "admin": {
+    "password": "jd2024"
+  }
+}
